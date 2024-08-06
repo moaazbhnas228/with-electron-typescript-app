@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
-import Link from "next/link";
 import Head from "next/head";
+import Container from "./Container";
+import Image from "next/image";
 
 type Props = {
   children: ReactNode;
@@ -15,19 +16,29 @@ const Layout = ({ children, title = "Hunt Wilson | Printer" }: Props) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <header>
-      {/* <nav>
-        <Link href="/">Home</Link> | <Link href="/about">About</Link> |{" "}
-        <Link href="/initial-props">With Initial Props</Link>
-      </nav> */}
+      <Container>
+        <Image
+          className="w-80 h-auto"
+          src="/images/logo.svg"
+          alt="Hunt Wilson | Printer"
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
+      </Container>
     </header>
-    {children}
-    <footer>
-      <hr />
-      <span>
-        This application monitors real-time updates to cartons data and prints
-        summaries of any additions or updates.
-      </span>
-    </footer>
+    <main>
+      <Container>{children}</Container>
+    </main>
+    <Container>
+      <footer className="border-t py-4">
+        {/* <hr /> */}
+        <p className="text-sm text-gray-500">
+          This application monitors real-time updates to cartons data and prints
+          summaries of any additions or updates.
+        </p>
+      </footer>
+    </Container>
   </div>
 );
 

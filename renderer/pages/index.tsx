@@ -1,33 +1,25 @@
-import { useEffect } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import supabase from "../lib/supabase";
-import Image from "next/image";
+import { RealtimePostgresUpdatePayload } from "@supabase/supabase-js";
+import { Tables } from "../interfaces/Database";
+import _ from "lodash";
 
 const IndexPage = () => {
-  useEffect(() => {
-    const handleMessage = (_event, args) => alert(args);
+  const [carton, setCarton] = useState<Tables<"cartons"> | null>(null);
+  console.log("📦", carton);
 
-    // listen to the 'message' channel
-    window.electron.receiveHello(handleMessage);
-
-    return () => {
-      window.electron.stopReceivingHello(handleMessage);
-    };
-  }, []);
-
-  const onSayHiClick = () => {
-    // window.electron.sayHello();
-    window.ipcRenderer.send("print", {});
-  };
-
-  function handleCartonUpdate(payload) {
-    const carton = payload.new;
-    console.log("🎁", carton);
+  function handleCartonUpdate(
+    payload: RealtimePostgresUpdatePayload<{
+      [key: string]: any;
+    }>
+  ) {
+    const carton = payload.new as Tables<"cartons">;
+    setCarton(carton);
     window.ipcRenderer.send("print-carton", {
       serialNumber: carton.serial_number,
       product: carton.variants[0].name.split(",")[0],
-      quantity: carton.varian,
+      quantity: _.sumBy(carton.variants as any, "quantity"),
     });
   }
 
@@ -48,19 +40,21 @@ const IndexPage = () => {
 
   return (
     <Layout title="Hunt Wilson | Printer">
-      <p className="text-red-700">test</p>
-      <Image
-        className="hidden ms-10"
-        src="/images/logo.svg"
-        alt=""
-        width={100}
-        height={100}
-      />
-      {/* <h1>Hello Next.js 👋</h1>
-      <button onClick={onSayHiClick}>Say hi to electron</button>
-      <p>
-        <Link href="/about">About</Link>
-      </p> */}
+      {carton ? (
+        <div>
+          <h1>
+            <b>Carton</b>: <code>{carton.serial_number}</code>
+          </h1>
+          <p>
+            <b>Product</b>: {carton.variants[0].name.split(",")[0]}
+          </p>
+          <p>
+            <b>Quantity</b>: {_.sumBy(carton.variants as any, "quantity")}
+          </p>
+        </div>
+      ) : (
+        <></>
+      )}
     </Layout>
   );
 };
