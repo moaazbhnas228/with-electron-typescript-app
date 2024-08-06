@@ -1,10 +1,10 @@
 {
   "private": true,
   "main": "main/index.js",
-  "productName": "ElectronTypescriptNext",
+  "productName": "Hunt Wilson Label Printer",
   "scripts": {
     "clean": "rimraf dist main renderer/out renderer/.next",
-    "dev": "npm run build-electron && electron .",
+    "dev": "npm run build-electron && npx electronmon .",
     "build-renderer": "next build renderer",
     "build-electron": "tsc -p electron-src",
     "build": "npm run build-renderer && npm run build-electron",
@@ -13,6 +13,7 @@
     "type-check": "tsc -p ./renderer/tsconfig.json && tsc -p ./electron-src/tsconfig.json"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
     "electron-is-dev": "^1.2.0",
     "electron-next": "^3.1.5",
     "react": "^18.2.0",
@@ -22,10 +23,13 @@
     "@types/node": "^14.18.63",
     "@types/react": "^16.14.52",
     "@types/react-dom": "^16.9.24",
+    "autoprefixer": "^10.4.20",
     "electron": "^27.1.2",
     "electron-builder": "^24.9.1",
     "next": "latest",
+    "postcss": "^8.4.41",
     "rimraf": "^3.0.2",
+    "tailwindcss": "^3.4.7",
     "typescript": "^4.9.5"
   },
   "build": {

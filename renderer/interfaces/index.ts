@@ -13,6 +13,9 @@ declare global {
       receiveHello: (handler: (event, args) => void) => void;
       stopReceivingHello: (handler: (event, args) => void) => void;
     };
+    ipcRenderer: {
+      send: (channel: string, data: any) => void;
+    };
   }
 }
 
