@@ -18,7 +18,7 @@ const Layout = ({ children, title = "Hunt Wilson | Printer" }: Props) => (
     <header>
       <Container>
         <Image
-          className="w-80 h-auto"
+          className="w-40 h-auto"
           src="/images/logo.svg"
           alt="Hunt Wilson | Printer"
           width={0}
@@ -30,12 +30,10 @@ const Layout = ({ children, title = "Hunt Wilson | Printer" }: Props) => (
     <main>
       <Container>{children}</Container>
     </main>
-    <Container>
+    <Container className="no-print">
       <footer className="border-t py-4">
-        {/* <hr /> */}
         <p className="text-sm text-gray-500">
-          This application monitors real-time updates to cartons data and prints
-          summaries of any additions or updates.
+          This application monitors real-time updates to cartons data and prints summaries of any additions or updates.
         </p>
       </footer>
     </Container>
