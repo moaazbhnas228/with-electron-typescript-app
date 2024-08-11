@@ -16,17 +16,30 @@ const IndexPage = () => {
   ) {
     const carton = payload.new as Tables<"cartons">;
     setCarton(carton);
-    window.ipcRenderer.send("print-carton", {
-      serialNumber: carton.serial_number,
-      product: carton.variants[0].name.split(",")[0],
-      quantity: _.sumBy(carton.variants as any, "quantity"),
-    });
+    window.ipcRenderer.send(
+      "print-carton",
+      {}
+      //   , {
+      //   serialNumber: carton.serial_number,
+      //   product: carton.variants[0].name.split(",")[0],
+      //   quantity: _.sumBy(carton.variants as any, "quantity"),
+      // }
+    );
   }
+
+  useEffect(() => {
+    console.log("???");
+    window.ipcRenderer.send("test", { a: 1 });
+  }, []);
 
   useEffect(function printOnCartonUpdate() {
     const channel = supabase.channel("cartons");
     channel
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "cartons" }, handleCartonUpdate)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "cartons" },
+        handleCartonUpdate
+      )
       .subscribe();
 
     return function unsubscribe() {
@@ -44,7 +57,11 @@ const IndexPage = () => {
   //     });
   // }, []);
 
-  return <Layout title="Hunt Wilson | Printer">{carton && <Carton carton={carton} />}</Layout>;
+  return (
+    <Layout title="Hunt Wilson | Printer">
+      {carton && <Carton carton={carton} />}
+    </Layout>
+  );
 };
 
 export default IndexPage;

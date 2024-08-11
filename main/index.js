@@ -46,13 +46,22 @@ function implementMenu() {
 // Prepare the renderer once the app is ready
 electron_1.app.on("ready", async () => {
     await (0, electron_next_1.default)("./renderer");
-    createMainWindow();
+    const win = createMainWindow();
     implementMenu();
-    electron_1.ipcMain.on("print", function print(event) {
-        const win = electron_1.BrowserWindow.getFocusedWindow();
+    electron_1.ipcMain.on("print-carton", function print(event) {
+        // const win = BrowserWindow.getFocusedWindow();
         if (win) {
-            win.webContents.print({ silent: true, printBackground: true });
+            win.webContents.print({
+                silent: false,
+                printBackground: true,
+                scaleFactor: 100,
+            });
         }
+    });
+    electron_1.ipcMain.on("test", () => {
+        console.log("test");
+        // const win = new BrowserWindow({ width: 800, height: 1500 });
+        // win.loadURL("https://github.com");
     });
     // mainWindow.webContents.print(
     //   {

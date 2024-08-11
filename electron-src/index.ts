@@ -51,14 +51,24 @@ function implementMenu() {
 app.on("ready", async () => {
   await prepareNext("./renderer");
 
-  createMainWindow();
+  const win = createMainWindow();
   implementMenu();
 
-  ipcMain.on("print", function print(event) {
-    const win = BrowserWindow.getFocusedWindow();
+  ipcMain.on("print-carton", function print(event) {
+    // const win = BrowserWindow.getFocusedWindow();
     if (win) {
-      win.webContents.print({ silent: true, printBackground: true });
+      win.webContents.print({
+        silent: false,
+        printBackground: true,
+        scaleFactor: 100,
+      });
     }
+  });
+
+  ipcMain.on("test", () => {
+    console.log("test");
+    // const win = new BrowserWindow({ width: 800, height: 1500 });
+    // win.loadURL("https://github.com");
   });
   // mainWindow.webContents.print(
   //   {
